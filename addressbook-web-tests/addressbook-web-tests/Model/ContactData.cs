@@ -175,7 +175,6 @@ namespace WebAddressbookTests
             _bMonth = bMonth;
             _bYear = bYear;
             _nameOfGroup = nameOfGroup;
-
         }
     }
 }
