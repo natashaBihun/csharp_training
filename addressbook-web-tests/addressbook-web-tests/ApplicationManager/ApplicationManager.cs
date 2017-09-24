@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
+
 namespace WebAddressbookTests
 {
     public class ApplicationManager
@@ -21,10 +22,8 @@ namespace WebAddressbookTests
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
 
-        public IWebDriver Driver
-        {
-            get
-            {
+        public IWebDriver Driver {
+            get {
                 return driver;
             }
         }
@@ -33,31 +32,23 @@ namespace WebAddressbookTests
                 return loginHelper;
             }
         }
-        public LogoutHelper Logout
-        {
-            get
-            {
+        public LogoutHelper Logout {
+            get  {
                 return logoutHelper;
             }
         }
-        public NavigationHelper Navigator
-        {
-            get
-            {
+        public NavigationHelper Navigator {
+            get {
                 return navigationHelper;
             }
         }
-        public GroupHelper Groups
-        {
-            get
-            {
+        public GroupHelper Groups {
+            get {
                 return groupHelper;
             }
         }
-        public ContactHelper Contacts
-        {
-            get
-            {
+        public ContactHelper Contacts {
+            get {
                 return contactHelper;
             }
         }

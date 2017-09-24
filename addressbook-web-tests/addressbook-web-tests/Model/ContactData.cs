@@ -19,137 +19,101 @@ namespace WebAddressbookTests
         private string _bDay = "";
         private string _bMonth = "";
         private string _bYear = "";
-        private string _nameOfGroup = "";
+        private string _nameOfGroup = "[none]";
 
-        public string FirstName
-        {
-            get
-            {
+        public string FirstName {
+            get {
                 return _firstName;
             }
-            set
-            {
+            set {
                 _firstName = value;
             }
         }
-        public string LastName
-        {
-            get
-            {
+        public string LastName {
+            get {
                 return _lastName;
             }
-            set
-            {
+            set {
                 _lastName = value;
             }
         }
-        public string Title
-        {
-            get
-            {
+        public string Title {
+            get {
                 return _title;
             }
-            set
-            {
+            set {
                 _title = value;
             }
         }
-        public string Company
-        {
-            get
-            {
+        public string Company {
+            get {
                 return _company;
             }
-            set
-            {
+            set {
                 _company = value;
             }
         }
-        public string Address
-        {
-            get
-            {
+        public string Address {
+            get {
                 return _address;
             }
-            set
-            {
+            set {
                 _address = value;
             }
         }
-        public string HomePhone
-        {
-            get
-            {
+        public string HomePhone {
+            get {
                 return _homePhone;
             }
-            set
-            {
+            set {
                 _homePhone = value;
             }
         }
-        public string MobilePhone
-        {
-            get
-            {
+        public string MobilePhone {
+            get {
                 return _mobilePhone;
             }
-            set
-            {
+            set {
                 _mobilePhone = value;
             }
         }
-        public string Email
-        {
-            get
-            {
+        public string Email {
+            get {
                 return _email;
             }
-            set
-            {
+            set {
                 _email = value;
             }
         }
-        public string BDay
-        {
-            get
-            {
+        public string BDay {
+            get {
                 return _bDay;
             }
-            set
-            {
+            set {
                 _bDay = value;
             }
         }
-        public string BMonth
-        {
-            get
-            {
+        public string BMonth {
+            get {
                 return _bMonth;
             }
-            set
-            {
+            set {
                 _bMonth = value;
             }
         }
-        public string BYear
-        {
-            get
-            {
+        public string BYear {
+            get {
                 return _bYear;
             }
-            set
-            {
+            set {
                 _bYear = value;
             }
         }
-        public string NameOfGroup
-        {
-            get
-            {
+        public string NameOfGroup {
+            get {
                 return _nameOfGroup;
             }
-            set
-            {
+            set {
                 _nameOfGroup = value;
             }
         }
@@ -174,7 +138,7 @@ namespace WebAddressbookTests
             _bDay = bDay;
             _bMonth = bMonth;
             _bYear = bYear;
-            _nameOfGroup = nameOfGroup;
+           // _nameOfGroup = nameOfGroup;
         }
     }
 }

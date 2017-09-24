@@ -41,8 +41,7 @@ namespace WebAddressbookTests
         public GroupData(string name) {
             _name = name;
         }
-        public GroupData(string name, string header, string footer)
-        {
+        public GroupData(string name, string header, string footer) {
             _name = name;
             _header = header;
             _footer = footer;
