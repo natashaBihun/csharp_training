@@ -15,7 +15,7 @@ namespace WebAddressbookTests
         {
             GroupData newData = new GroupData() {
                 Name = "new name",
-                Header = "new header",
+                Header = null,
                 Footer = "new footer"
             };
 

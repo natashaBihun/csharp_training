@@ -138,7 +138,7 @@ namespace WebAddressbookTests
             _bDay = bDay;
             _bMonth = bMonth;
             _bYear = bYear;
-           // _nameOfGroup = nameOfGroup;
+            _nameOfGroup = nameOfGroup;
         }
     }
 }

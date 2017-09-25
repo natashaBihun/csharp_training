@@ -24,7 +24,8 @@ namespace WebAddressbookTests
                 Email = "nbihun@sharpminds.com",
                 BDay = "20",
                 BMonth = "October",
-                BYear = "1991"
+                BYear = "1991",
+                NameOfGroup = null
             };
 
             appManager.Contacts.Modify(1, newContactData);

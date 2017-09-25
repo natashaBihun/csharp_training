@@ -70,27 +70,18 @@ namespace WebAddressbookTests
         }
         public ContactHelper FillContactForm(ContactData contactData)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contactData.FirstName);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contactData.LastName);
-            driver.FindElement(By.Name("title")).Clear();
-            driver.FindElement(By.Name("title")).SendKeys(contactData.Title);
-            driver.FindElement(By.Name("company")).Clear();
-            driver.FindElement(By.Name("company")).SendKeys(contactData.Company);
-            driver.FindElement(By.Name("address")).Clear();
-            driver.FindElement(By.Name("address")).SendKeys(contactData.Address);
-            driver.FindElement(By.Name("home")).Clear();
-            driver.FindElement(By.Name("home")).SendKeys(contactData.HomePhone);
-            driver.FindElement(By.Name("mobile")).Clear();
-            driver.FindElement(By.Name("mobile")).SendKeys(contactData.MobilePhone);
-            driver.FindElement(By.Name("email")).Clear();
-            driver.FindElement(By.Name("email")).SendKeys(contactData.Email);
-            new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText(contactData.BDay);
-            new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByText(contactData.BMonth);
-            driver.FindElement(By.Name("byear")).Clear();
-            driver.FindElement(By.Name("byear")).SendKeys(contactData.BYear);
-            //new SelectElement(driver.FindElement(By.Name("new_group"))).SelectByText(contactData.NameOfGroup);
+            Type(By.Name("firstname"), contactData.FirstName);
+            Type(By.Name("lastname"), contactData.LastName);
+            Type(By.Name("title"), contactData.Title);
+            Type(By.Name("company"), contactData.Company);
+            Type(By.Name("address"), contactData.Address);
+            Type(By.Name("home"), contactData.HomePhone);
+            Type(By.Name("mobile"), contactData.MobilePhone);
+            Type(By.Name("email"), contactData.Email);
+            SelectingType(By.Name("bday"), contactData.BDay);
+            SelectingType(By.Name("bmonth"), contactData.BMonth);
+            Type(By.Name("byear"), contactData.BYear);
+            SelectingType(By.Name("new_group"), contactData.NameOfGroup);
             // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
 
             return this;
