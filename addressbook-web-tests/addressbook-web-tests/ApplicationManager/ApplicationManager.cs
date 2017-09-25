@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -13,6 +14,8 @@ namespace WebAddressbookTests
 {
     public class ApplicationManager
     {
+        private static ThreadLocal<ApplicationManager> appManager = new ThreadLocal<ApplicationManager>();
+
         protected IWebDriver driver;
         protected string baseURL;
 
@@ -53,7 +56,7 @@ namespace WebAddressbookTests
             }
         }
 
-        public ApplicationManager() {
+        private ApplicationManager() {
             FirefoxOptions options = new FirefoxOptions();
             options.BrowserExecutableLocation = @"C:\\Program Files\\Mozilla Firefox\\firefox.exe";
             options.UseLegacyImplementation = true;
@@ -67,7 +70,7 @@ namespace WebAddressbookTests
             contactHelper = new ContactHelper(this);
         }
 
-        public void Stop() {
+        ~ApplicationManager() {
             try
             {
                 driver.Quit();
@@ -76,6 +79,14 @@ namespace WebAddressbookTests
             {
                 // Ignore errors if unable to close the browser
             }
+        }
+
+        public static ApplicationManager GetInstance()  {
+            if (!appManager.IsValueCreated)
+            {
+                appManager.Value = new ApplicationManager();
+            }
+            return appManager.Value;
         }
     }
 }
