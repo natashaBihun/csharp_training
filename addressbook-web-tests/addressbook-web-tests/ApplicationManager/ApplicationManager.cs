@@ -61,7 +61,7 @@ namespace WebAddressbookTests
             options.BrowserExecutableLocation = @"C:\\Program Files\\Mozilla Firefox\\firefox.exe";
             options.UseLegacyImplementation = true;
             driver = new FirefoxDriver(options);
-            baseURL = "http://localhost/";
+            baseURL = "http://localhost";
 
             loginHelper = new LoginHelper(this);
             logoutHelper = new LogoutHelper(this);
@@ -84,7 +84,9 @@ namespace WebAddressbookTests
         public static ApplicationManager GetInstance()  {
             if (!appManager.IsValueCreated)
             {
-                appManager.Value = new ApplicationManager();
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigator.GoToHomePage();
+                appManager.Value = newInstance;
             }
             return appManager.Value;
         }
