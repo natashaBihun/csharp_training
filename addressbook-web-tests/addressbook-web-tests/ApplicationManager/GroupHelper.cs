@@ -82,13 +82,32 @@ namespace WebAddressbookTests
         }
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            if (IsGroupPresent())
+            {
+                driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            }
+            else {
+                Create(new GroupData());
+            }
             return this;
         }
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
             return this;
+        }
+        public bool IsGroupWithIndexPresent(int index)
+        {
+            if (IsGroupPresent() && driver.FindElements(By.ClassName("group")).Count() < index) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        public bool IsGroupPresent()
+        {
+            return IsElementPresent(By.TagName("span")) && IsElementPresent(By.ClassName("group"));
         }
     }
 }
