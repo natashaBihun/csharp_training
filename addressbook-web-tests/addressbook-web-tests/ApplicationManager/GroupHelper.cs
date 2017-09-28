@@ -84,10 +84,18 @@ namespace WebAddressbookTests
         {
             if (IsGroupPresent())
             {
-                driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+                if (IsGroupWithIndexPresent(index))
+                {
+                    driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+                }
+                else {
+                    driver.FindElement(By.Name("selected[]")).Click();
+                }
+                
             }
             else {
-                Create(new GroupData());
+                Create(new GroupData() { Name = "new group"});
+                driver.FindElement(By.Name("selected[]")).Click();
             }
             return this;
         }
@@ -98,7 +106,7 @@ namespace WebAddressbookTests
         }
         public bool IsGroupWithIndexPresent(int index)
         {
-            if (IsGroupPresent() && driver.FindElements(By.ClassName("group")).Count() < index) {
+            if (driver.FindElements(By.ClassName("group")).Count() >= index) {
                 return true;
             }
             else {

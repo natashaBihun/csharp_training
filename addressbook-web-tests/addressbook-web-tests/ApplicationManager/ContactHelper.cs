@@ -54,8 +54,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper SelectContact(int contactIndex)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + contactIndex + "]")).Click();
-
+            ChooseContact(contactIndex, "(//input[@name='selected[]'])");
             return this;
         }
         public ContactHelper InitContactCreation()
@@ -65,7 +64,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper InitContactModification(int contactIndex)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + contactIndex + "]")).Click();
+            ChooseContact(contactIndex, "(//img[@alt='Edit'])");
             return this;
         }
         public ContactHelper FillContactForm(ContactData contactData)
@@ -81,7 +80,9 @@ namespace WebAddressbookTests
             SelectingType(By.Name("bday"), contactData.BDay);
             SelectingType(By.Name("bmonth"), contactData.BMonth);
             Type(By.Name("byear"), contactData.BYear);
-            SelectingType(By.Name("new_group"), contactData.NameOfGroup);
+            if(IsElementPresent(By.Name("new_group"))) {
+                SelectingType(By.Name("new_group"), contactData.NameOfGroup);
+            }
             // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
 
             return this;
@@ -102,5 +103,40 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public bool IsContactWithIndexPresent(int index)
+        {
+            if (driver.FindElements(By.Name("entry")).Count() >= index)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool IsContactPresent()
+        {
+            return IsElementPresent(By.TagName("tr")) && IsElementPresent(By.Name("entry"));
+        }
+        public ContactHelper ChooseContact(int contactIndex, string path)
+        {
+            if (IsContactPresent())
+            {
+                if (IsContactWithIndexPresent(contactIndex))
+                {
+                    driver.FindElement(By.XPath(path + "[" + contactIndex + "]")).Click();
+                }
+                else
+                {
+                    driver.FindElement(By.XPath(path)).Click();
+                }
+            }
+            else
+            {
+                Create(new ContactData() { FirstName = "new contact" });
+                driver.FindElement(By.XPath(path)).Click();
+            }
+            return this;
+        }
     }
 }

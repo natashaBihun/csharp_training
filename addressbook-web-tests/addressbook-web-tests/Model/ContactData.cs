@@ -17,9 +17,9 @@ namespace WebAddressbookTests
         private string _mobilePhone = "";
         private string _email = "";
         private string _bDay = "";
-        private string _bMonth = "";
+        private string _bMonth = "-";
         private string _bYear = "";
-        private string _nameOfGroup = "[none]";
+        private string _nameOfGroup = null;
 
         public string FirstName {
             get {

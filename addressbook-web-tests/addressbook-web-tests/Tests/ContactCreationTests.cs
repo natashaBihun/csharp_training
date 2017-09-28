@@ -25,7 +25,7 @@ namespace WebAddressbookTests
                 BDay = "20",
                 BMonth = "October",
                 BYear = "1991",
-                NameOfGroup = "name"
+                NameOfGroup = "[none]"
             };
 
             appManager.Contacts.Create(contactData);
