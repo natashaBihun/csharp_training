@@ -24,10 +24,11 @@ namespace WebAddressbookTests
             ReturnToGroupsPage();
 
             return this;
-        }
+        }        
 
         public GroupHelper Modify(int groupIndex, GroupData newData)
         {
+            groupIndex = groupIndex + 1;
             manager.Navigator.GoToGroupsPage();
 
             SelectGroup(groupIndex);
@@ -38,7 +39,8 @@ namespace WebAddressbookTests
 
             return this;
         }
-        public GroupHelper Remove(int groupIndex) { 
+        public GroupHelper Remove(int groupIndex) {
+            groupIndex = groupIndex + 1;
             manager.Navigator.GoToGroupsPage();
 
             SelectGroup(groupIndex);
@@ -116,6 +118,18 @@ namespace WebAddressbookTests
         public bool IsGroupPresent()
         {
             return IsElementPresent(By.TagName("span")) && IsElementPresent(By.ClassName("group"));
+        }
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+
+            manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements) {
+                groups.Add(new GroupData(element.Text));
+            }
+
+            return groups;
         }
     }
 }

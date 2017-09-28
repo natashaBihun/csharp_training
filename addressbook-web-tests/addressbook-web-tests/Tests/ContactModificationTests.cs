@@ -28,7 +28,7 @@ namespace WebAddressbookTests
                 NameOfGroup = null
             };
 
-            appManager.Contacts.Modify(2, newContactData);
+            appManager.Contacts.Modify(0, newContactData);
         }
     }
 }

@@ -27,6 +27,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper Modify(int contactIndex, ContactData newContactData)
         {
+            contactIndex = contactIndex + 1;
             manager.Navigator.GoToContactsPage();
 
             //SelectContact(contactIndex);
@@ -39,6 +40,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper Remove(int contactIndex)
         {
+            contactIndex = contactIndex + 1;
             manager.Navigator.GoToContactsPage();
 
             SelectContact(contactIndex);

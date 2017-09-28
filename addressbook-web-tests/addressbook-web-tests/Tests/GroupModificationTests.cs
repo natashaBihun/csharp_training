@@ -19,7 +19,7 @@ namespace WebAddressbookTests
                 Footer = "new footer"
             };
 
-            appManager.Groups.Modify(2, newData);
+            appManager.Groups.Modify(0, newData);
         }
     }
 }
