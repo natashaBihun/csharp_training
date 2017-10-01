@@ -12,7 +12,25 @@ namespace WebAddressbookTests
     {
         [Test]
         public void ContactRemovalTest() {
-            appManager.Contacts.Remove(3);
+            int contactInedx = 3;
+
+            if (appManager.Contacts.IsContactWithIndexPresent(contactInedx))
+            {
+                appManager.Contacts.Remove(contactInedx);
+            }
+            else
+            {
+                contactInedx = 1;
+                if (appManager.Contacts.IsContactPresent())
+                {
+                    appManager.Contacts.Remove(contactInedx);
+                }
+                else
+                {
+                    appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
+                    appManager.Contacts.Remove(contactInedx);
+                }
+            }
         }
     }
 }

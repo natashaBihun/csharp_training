@@ -29,7 +29,7 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int groupIndex, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-
+            
             SelectGroup(groupIndex);
             InitGroupModification();
             FillGroupForm(newData);
@@ -82,23 +82,10 @@ namespace WebAddressbookTests
         }
         public GroupHelper SelectGroup(int index)
         {
-            if (IsGroupPresent())
-            {
-                if (IsGroupWithIndexPresent(index))
-                {
-                    driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
-                }
-                else {
-                    driver.FindElement(By.Name("selected[]")).Click();
-                }
-                
-            }
-            else {
-                Create(new GroupData() { Name = "new group"});
-                driver.FindElement(By.Name("selected[]")).Click();
-            }
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }
+
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
@@ -106,16 +93,13 @@ namespace WebAddressbookTests
         }
         public bool IsGroupWithIndexPresent(int index)
         {
-            if (driver.FindElements(By.ClassName("group")).Count() >= index) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            manager.Navigator.GoToGroupsPage();
+            return driver.FindElements(By.ClassName("group")).Count() >= index;
         }
         public bool IsGroupPresent()
         {
-            return IsElementPresent(By.TagName("span")) && IsElementPresent(By.ClassName("group"));
+            manager.Navigator.GoToGroupsPage();
+            return IsElementPresent(By.TagName("span")) && IsElementPresent(By.ClassName("group"));         
         }
     }
 }
