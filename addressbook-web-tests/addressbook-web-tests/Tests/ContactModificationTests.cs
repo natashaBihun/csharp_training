@@ -27,24 +27,40 @@ namespace WebAddressbookTests
                 BYear = "1991",
                 NameOfGroup = null
             };
-            int contactInedx = 3;
 
-            if (appManager.Contacts.IsContactWithIndexPresent(contactInedx))
+            appManager.Contacts.IsAnyContactForModifyPresent(newContactData);
+        }
+
+
+
+        [Test]
+        public void ContactModificationByIndexTest()
+        {
+            ContactData newContactData = new ContactData()
+            {
+                FirstName = "Nata",
+                LastName = "Bihun",
+                Title = "Contact info",
+                Company = "SharpMinds",
+                Address = "Ukraine",
+                HomePhone = "0978271133",
+                MobilePhone = "0978271138",
+                Email = "nbihun@sharpminds.com",
+                BDay = "20",
+                BMonth = "October",
+                BYear = "1991",
+                NameOfGroup = null
+            };
+            int contactInedx = 2;
+
+            if (appManager.Contacts.IsContactPresent(contactInedx))
             {
                 appManager.Contacts.Modify(contactInedx, newContactData);
             }
-            else {
-                contactInedx = 1;
-                if (appManager.Contacts.IsContactPresent())
-                {
-                    appManager.Contacts.Modify(contactInedx, newContactData);
-                }
-                else {
-                    appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
-                    appManager.Contacts.Modify(contactInedx, newContactData);
-                }
+            else
+            {
+                appManager.Contacts.IsAnyContactForModifyPresent(newContactData);
             }
-            
         }
     }
 }

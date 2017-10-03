@@ -11,25 +11,24 @@ namespace WebAddressbookTests
     public class ContactRemovalTests : AuthTestBase
     {
         [Test]
-        public void ContactRemovalTest() {
-            int contactInedx = 3;
+        public void ContactRemovalTest()
+        {
+            appManager.Contacts.IsAnyContactForRemovePresent();
+        }
 
-            if (appManager.Contacts.IsContactWithIndexPresent(contactInedx))
+
+        [Test]
+        public void ContactRemovalByIndexTest()
+        {
+            int contactInedx = 2;
+
+            if (appManager.Contacts.IsContactPresent(contactInedx))
             {
                 appManager.Contacts.Remove(contactInedx);
             }
             else
             {
-                contactInedx = 1;
-                if (appManager.Contacts.IsContactPresent())
-                {
-                    appManager.Contacts.Remove(contactInedx);
-                }
-                else
-                {
-                    appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
-                    appManager.Contacts.Remove(contactInedx);
-                }
+                appManager.Contacts.IsAnyContactForRemovePresent();
             }
         }
     }

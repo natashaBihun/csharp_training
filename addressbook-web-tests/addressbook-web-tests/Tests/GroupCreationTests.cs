@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -18,12 +18,19 @@ namespace WebAddressbookTests
                 Header = "header",
                 Footer = "footer"
             };
-
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
             appManager.Groups.Create(group);
+        }
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+        [Test]
+        public void BadNameGroupCreationTest()
+        {
+            GroupData group = new GroupData()
+            {
+                Name = "name'",
+                Header = "header",
+                Footer = "footer"
+            };
+            appManager.Groups.Create(group);
         }
 
         [Test]

@@ -10,6 +10,7 @@ namespace WebAddressbookTests
     {
         private string _firstName;
         private string _lastName = "";
+        private string _formattedName;
         private string _title = "";
         private string _company = "";
         private string _address = "";
@@ -37,6 +38,18 @@ namespace WebAddressbookTests
                 _lastName = value;
             }
         }
+        public string FormattedName
+        {
+            get
+            {
+                return _firstName + " " + _lastName;
+            }
+            set
+            {
+                _formattedName = value;
+            }
+        }
+
         public string Title {
             get {
                 return _title;
@@ -129,6 +142,7 @@ namespace WebAddressbookTests
 
             _firstName = firstName;
             _lastName = lastName;
+            _formattedName = _firstName + _lastName;
             _title = title;
             _company = company;
             _address = address;

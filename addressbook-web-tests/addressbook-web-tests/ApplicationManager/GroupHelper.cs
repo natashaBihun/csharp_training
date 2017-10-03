@@ -28,7 +28,6 @@ namespace WebAddressbookTests
 
         public GroupHelper Modify(int groupIndex, GroupData newData)
         {
-            groupIndex = groupIndex + 1;
             manager.Navigator.GoToGroupsPage();
             
             SelectGroup(groupIndex);
@@ -40,7 +39,6 @@ namespace WebAddressbookTests
             return this;
         }
         public GroupHelper Remove(int groupIndex) {
-            groupIndex = groupIndex + 1;
             manager.Navigator.GoToGroupsPage();
 
             SelectGroup(groupIndex);
@@ -93,27 +91,31 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("delete")).Click();
             return this;
         }
-        public bool IsGroupWithIndexPresent(int index)
+        public bool IsGroupPresent(int index)
         {
             manager.Navigator.GoToGroupsPage();
-            return driver.FindElements(By.ClassName("group")).Count() >= index;
+            return driver.FindElements(By.CssSelector("span.group")).Count() >= index;
         }
         public bool IsGroupPresent()
         {
             manager.Navigator.GoToGroupsPage();
             return IsElementPresent(By.TagName("span")) && IsElementPresent(By.ClassName("group"));         
         }
-        public List<GroupData> GetGroupList()
+        public void IsAnyGroupForModifyPresent(GroupData newData)
         {
-            List<GroupData> groups = new List<GroupData>();
-
-            manager.Navigator.GoToGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            foreach (IWebElement element in elements) {
-                groups.Add(new GroupData(element.Text));
+            if (!IsGroupPresent())
+            {
+                Create(new GroupData() { Name = "new group" });
             }
-
-            return groups;
+            Modify(1, newData);
+        }
+        public void IsAnyGroupForRemovePresent()
+        {
+            if (!IsGroupPresent())
+            {
+                Create(new GroupData() { Name = "new group" });   
+            }
+            Remove(1);
         }
     }
 }

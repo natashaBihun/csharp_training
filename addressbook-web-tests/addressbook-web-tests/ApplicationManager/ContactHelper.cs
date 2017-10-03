@@ -27,7 +27,6 @@ namespace WebAddressbookTests
         }
         public ContactHelper Modify(int contactIndex, ContactData newContactData)
         {
-            contactIndex = contactIndex + 1;
             manager.Navigator.GoToContactsPage();
 
             //SelectContact(contactIndex);
@@ -40,7 +39,6 @@ namespace WebAddressbookTests
         }
         public ContactHelper Remove(int contactIndex)
         {
-            contactIndex = contactIndex + 1;
             manager.Navigator.GoToContactsPage();
 
             SelectContact(contactIndex);
@@ -105,16 +103,32 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public bool IsContactWithIndexPresent(int index)
+        public bool IsContactPresent(int index)
         {
             manager.Navigator.GoToContactsPage();
-            return driver.FindElements(By.Name("entry")).Count() >= index;
+            return driver.FindElements(By.XPath("//tr[@name='entry']")).Count() >= index;
 
         }
         public bool IsContactPresent()
         {
             manager.Navigator.GoToContactsPage();
             return IsElementPresent(By.TagName("tr")) && IsElementPresent(By.Name("entry"));
+        }
+        public void IsAnyContactForModifyPresent(ContactData newContactData)
+        {
+            if (!IsContactPresent())
+            {
+                Create(new ContactData() { FirstName = "new contact" });
+            }
+            Modify(1, newContactData);
+        }
+        public void IsAnyContactForRemovePresent()
+        {
+            if (!IsContactPresent())
+            {
+                Create(new ContactData() { FirstName = "new contact" });
+            }
+            Remove(1);
         }
     }
 }
