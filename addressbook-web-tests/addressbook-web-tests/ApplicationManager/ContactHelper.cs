@@ -56,7 +56,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper SelectContact(int contactIndex)
         {
-            ChooseContact(contactIndex, "(//input[@name='selected[]'])");
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])" + "[" + contactIndex + "]")).Click();
             return this;
         }
         public ContactHelper InitContactCreation()
@@ -66,7 +66,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper InitContactModification(int contactIndex)
         {
-            ChooseContact(contactIndex, "(//img[@alt='Edit'])");
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])" + "[" + contactIndex + "]")).Click();
             return this;
         }
         public ContactHelper FillContactForm(ContactData contactData)
@@ -107,38 +107,14 @@ namespace WebAddressbookTests
 
         public bool IsContactWithIndexPresent(int index)
         {
-            if (driver.FindElements(By.Name("entry")).Count() >= index)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            manager.Navigator.GoToContactsPage();
+            return driver.FindElements(By.Name("entry")).Count() >= index;
+
         }
         public bool IsContactPresent()
         {
+            manager.Navigator.GoToContactsPage();
             return IsElementPresent(By.TagName("tr")) && IsElementPresent(By.Name("entry"));
-        }
-        public ContactHelper ChooseContact(int contactIndex, string path)
-        {
-            if (IsContactPresent())
-            {
-                if (IsContactWithIndexPresent(contactIndex))
-                {
-                    driver.FindElement(By.XPath(path + "[" + contactIndex + "]")).Click();
-                }
-                else
-                {
-                    driver.FindElement(By.XPath(path)).Click();
-                }
-            }
-            else
-            {
-                Create(new ContactData() { FirstName = "new contact" });
-                driver.FindElement(By.XPath(path)).Click();
-            }
-            return this;
         }
     }
 }

@@ -27,8 +27,24 @@ namespace WebAddressbookTests
                 BYear = "1991",
                 NameOfGroup = null
             };
+            int contactInedx = 3;
 
-            appManager.Contacts.Modify(0, newContactData);
+            if (appManager.Contacts.IsContactWithIndexPresent(contactInedx))
+            {
+                appManager.Contacts.Modify(contactInedx, newContactData);
+            }
+            else {
+                contactInedx = 1;
+                if (appManager.Contacts.IsContactPresent())
+                {
+                    appManager.Contacts.Modify(contactInedx, newContactData);
+                }
+                else {
+                    appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
+                    appManager.Contacts.Modify(contactInedx, newContactData);
+                }
+            }
+            
         }
     }
 }

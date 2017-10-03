@@ -18,8 +18,26 @@ namespace WebAddressbookTests
                 Header = null,
                 Footer = "new footer"
             };
+            int groupIndex = 3;
 
-            appManager.Groups.Modify(0, newData);
+            if (appManager.Groups.IsGroupPresent())
+            {
+                if (appManager.Groups.IsGroupWithIndexPresent(groupIndex))
+                {
+                    appManager.Groups.Modify(groupIndex, newData);
+                }
+                else
+                {
+                    groupIndex = 1;
+                    appManager.Groups.Modify(groupIndex, newData);
+                }
+            }
+            else
+            {
+                appManager.Groups.Create(new GroupData() { Name = "new group" });
+                groupIndex = 1;
+                appManager.Groups.Modify(groupIndex, newData);
+            }
         }
     }
 }
