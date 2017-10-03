@@ -13,12 +13,19 @@ namespace WebAddressbookTests
        [Test]
         public void GroupRemovalTest()
         {
+            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+
             appManager.Groups.IsAnyGroupForRemovePresent();
+
+            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            if (oldGroups.Count != 0) oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
         public void GroupRemovalByIndexTest()
         {
+            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
             int groupIndex = 2;
 
             if (appManager.Groups.IsGroupPresent(groupIndex))
@@ -29,6 +36,10 @@ namespace WebAddressbookTests
             {
                 appManager.Groups.IsAnyGroupForRemovePresent();
             }
+
+            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            if (oldGroups.Count != 0) oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }

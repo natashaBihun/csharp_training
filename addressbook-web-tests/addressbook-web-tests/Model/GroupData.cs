@@ -6,45 +6,84 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    public class GroupData
+    public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
         private string _name;
         private string _header = "";
         private string _footer = "";
 
-        public string Name {
-            get {
+        public string Name
+        {
+            get
+            {
                 return _name;
             }
-            set {
+            set
+            {
                 _name = value;
             }
         }
-        public string Header {
-            get {
+        public string Header
+        {
+            get
+            {
                 return _header;
             }
-            set {
+            set
+            {
                 _header = value;
             }
         }
-        public string Footer {
-            get {
+        public string Footer
+        {
+            get
+            {
                 return _footer;
             }
-            set {
+            set
+            {
                 _footer = value;
             }
         }
 
         public GroupData() { }
-        public GroupData(string name) {
+        public GroupData(string name)
+        {
             _name = name;
         }
-        public GroupData(string name, string header, string footer) {
+        public GroupData(string name, string header, string footer)
+        {
             _name = name;
             _header = header;
             _footer = footer;
+        }
+        public bool Equals(GroupData otherGroup)
+        {
+            if (Object.ReferenceEquals(otherGroup, null))
+            {
+                return false;
+            }
+            if (Object.ReferenceEquals(this, otherGroup))
+            {
+                return true;
+            }
+            return Name == otherGroup.Name;
+        }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return "name = " + Name;
+        }
+        public int CompareTo(GroupData otherGroup)
+        {
+            if (Object.ReferenceEquals(otherGroup, null))
+            {
+                return 1;
+            }
+            return Name.CompareTo(otherGroup.Name);
         }
     }
 }

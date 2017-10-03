@@ -28,7 +28,14 @@ namespace WebAddressbookTests
                 BYear = "1991",
                 NameOfGroup = "[none]"
             };
+            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
             appManager.Contacts.Create(contactData);
+
+            List<ContactData> newContacts = appManager.Contacts.GetContactList();
+            oldContacts.Add(contactData);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

@@ -130,5 +130,19 @@ namespace WebAddressbookTests
             }
             Remove(1);
         }
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+
+            manager.Navigator.GoToContactsPage();
+            ICollection<IWebElement> elementsFirstName = driver.FindElements(By.XPath("//tr[@name='entry']/td[3]"));
+            ICollection<IWebElement> elementsLastName = driver.FindElements(By.XPath("//tr[@name='entry']/td[2]"));
+            for (int i = 0; i < elementsFirstName.Count; i++)
+            {
+                contacts.Add(new ContactData() { FirstName = elementsFirstName.ElementAt(i).Text, LastName = elementsLastName.ElementAt(i).Text });
+            }
+
+            return contacts;
+        }
     }
 }
