@@ -32,7 +32,11 @@ namespace WebAddressbookTests
             }
             else
             {
-                ContactRemovalTest();
+                if (!appManager.Contacts.IsContactPresent())
+                {
+                    appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
+                }
+                appManager.Contacts.Remove(1);
             }
         }
     }

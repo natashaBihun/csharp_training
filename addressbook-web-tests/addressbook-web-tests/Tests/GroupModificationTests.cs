@@ -48,6 +48,7 @@ namespace WebAddressbookTests
                     appManager.Groups.Create(new GroupData() { Name = "new group" });
                 }
                 appManager.Groups.Modify(1, newData);
+
             }
         }
     }

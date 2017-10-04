@@ -63,7 +63,11 @@ namespace WebAddressbookTests
             }
             else
             {
-                ContactModificationTest();
+                if (!appManager.Contacts.IsContactPresent())
+                {
+                    appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
+                }
+                appManager.Contacts.Modify(1, newContactData);
             }
         }
     }

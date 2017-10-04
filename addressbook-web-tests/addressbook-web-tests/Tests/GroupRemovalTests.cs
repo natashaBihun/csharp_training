@@ -31,7 +31,11 @@ namespace WebAddressbookTests
             }
             else
             {
-                GroupRemovalTest();
+                if (!appManager.Groups.IsGroupPresent())
+                {
+                    appManager.Groups.Create(new GroupData() { Name = "new group" });
+                }
+                appManager.Groups.Remove(1);
             }
         }
     }
