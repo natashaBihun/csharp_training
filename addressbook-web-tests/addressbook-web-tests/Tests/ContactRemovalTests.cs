@@ -13,20 +13,17 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
-
-            appManager.Contacts.IsAnyContactForRemovePresent();
-
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
-            if (oldContacts.Count != 0) oldContacts.RemoveAt(0);
-            Assert.AreEqual(oldContacts, newContacts);
+            if (!appManager.Contacts.IsContactPresent())
+            {
+                appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
+            }
+            appManager.Contacts.Remove(1);
         }
 
 
         [Test]
         public void ContactRemovalByIndexTest()
         {
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
             int contactInedx = 2;
 
             if (appManager.Contacts.IsContactPresent(contactInedx))
@@ -35,12 +32,12 @@ namespace WebAddressbookTests
             }
             else
             {
-                appManager.Contacts.IsAnyContactForRemovePresent();
+                if (!appManager.Contacts.IsContactPresent())
+                {
+                    appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
+                }
+                appManager.Contacts.Remove(1);
             }
-
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
-            if (oldContacts.Count != 0) oldContacts.RemoveAt(0);
-            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

@@ -114,22 +114,6 @@ namespace WebAddressbookTests
             manager.Navigator.GoToContactsPage();
             return IsElementPresent(By.TagName("tr")) && IsElementPresent(By.Name("entry"));
         }
-        public void IsAnyContactForModifyPresent(ContactData newContactData)
-        {
-            if (!IsContactPresent())
-            {
-                Create(new ContactData() { FirstName = "new contact" });
-            }
-            Modify(1, newContactData);
-        }
-        public void IsAnyContactForRemovePresent()
-        {
-            if (!IsContactPresent())
-            {
-                Create(new ContactData() { FirstName = "new contact" });
-            }
-            Remove(1);
-        }
         public List<ContactData> GetContactList()
         {
             List<ContactData> contacts = new List<ContactData>();

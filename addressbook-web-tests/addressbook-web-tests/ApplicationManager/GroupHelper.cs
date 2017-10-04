@@ -101,22 +101,6 @@ namespace WebAddressbookTests
             manager.Navigator.GoToGroupsPage();
             return IsElementPresent(By.TagName("span")) && IsElementPresent(By.ClassName("group"));         
         }
-        public void IsAnyGroupForModifyPresent(GroupData newData)
-        {
-            if (!IsGroupPresent())
-            {
-                Create(new GroupData() { Name = "new group" });
-            }
-            Modify(1, newData);
-        }
-        public void IsAnyGroupForRemovePresent()
-        {
-            if (!IsGroupPresent())
-            {
-                Create(new GroupData() { Name = "new group" });   
-            }
-            Remove(1);
-        }
         public List<GroupData> GetGroupList()
         {
             List<GroupData> groups = new List<GroupData>();

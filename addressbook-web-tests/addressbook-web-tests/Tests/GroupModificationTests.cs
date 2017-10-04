@@ -18,15 +18,12 @@ namespace WebAddressbookTests
                 Header = null,
                 Footer = "new footer"
             };
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
 
-            appManager.Groups.IsAnyGroupForModifyPresent(newData);
-
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            if (oldGroups.Count != 0) oldGroups[0].Name = newData.Name;
-            oldGroups.Sort();
-            newGroups.Sort();
-            Assert.AreEqual(oldGroups, newGroups);
+            if (!appManager.Groups.IsGroupPresent())
+            {
+                appManager.Groups.Create(new GroupData() { Name = "new group" });
+            }
+            appManager.Groups.Modify(1, newData);
         }
 
         [Test]
@@ -38,7 +35,6 @@ namespace WebAddressbookTests
                 Header = null,
                 Footer = "new footer"
             };
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
             int groupIndex = 2;
 
             if (appManager.Groups.IsGroupPresent(groupIndex))
@@ -47,14 +43,12 @@ namespace WebAddressbookTests
             }
             else
             {
-                appManager.Groups.IsAnyGroupForModifyPresent(newData);
+                if (!appManager.Groups.IsGroupPresent())
+                {
+                    appManager.Groups.Create(new GroupData() { Name = "new group" });
+                }
+                appManager.Groups.Modify(1, newData);
             }
-
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            if (oldGroups.Count != 0) oldGroups[0].Name = newData.Name;
-            oldGroups.Sort();
-            newGroups.Sort();
-            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
