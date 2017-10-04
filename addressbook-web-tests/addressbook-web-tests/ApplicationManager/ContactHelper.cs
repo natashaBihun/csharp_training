@@ -114,35 +114,5 @@ namespace WebAddressbookTests
             manager.Navigator.GoToContactsPage();
             return IsElementPresent(By.TagName("tr")) && IsElementPresent(By.Name("entry"));
         }
-        public void IsAnyContactForModifyPresent(ContactData newContactData)
-        {
-            if (!IsContactPresent())
-            {
-                Create(new ContactData() { FirstName = "new contact" });
-            }
-            Modify(1, newContactData);
-        }
-        public void IsAnyContactForRemovePresent()
-        {
-            if (!IsContactPresent())
-            {
-                Create(new ContactData() { FirstName = "new contact" });
-            }
-            Remove(1);
-        }
-        public List<ContactData> GetContactList()
-        {
-            List<ContactData> contacts = new List<ContactData>();
-
-            manager.Navigator.GoToContactsPage();
-            ICollection<IWebElement> elementsFirstName = driver.FindElements(By.XPath("//tr[@name='entry']/td[3]"));
-            ICollection<IWebElement> elementsLastName = driver.FindElements(By.XPath("//tr[@name='entry']/td[2]"));
-            for (int i = 0; i < elementsFirstName.Count; i++)
-            {
-                contacts.Add(new ContactData() { FirstName = elementsFirstName.ElementAt(i).Text, LastName = elementsLastName.ElementAt(i).Text });
-            }
-
-            return contacts;
-        }
     }
 }
