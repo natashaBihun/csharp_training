@@ -166,7 +166,7 @@ namespace WebAddressbookTests
                 _nameOfGroup = value;
             }
         }
-
+        public string Id { get; set; }
         public ContactData() { }
 
         public ContactData(string firstName)

@@ -45,6 +45,7 @@ namespace WebAddressbookTests
                 _footer = value;
             }
         }
+        public string Id { get; set; }
 
         public GroupData() { }
         public GroupData(string name)

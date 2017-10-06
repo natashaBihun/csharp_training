@@ -28,6 +28,7 @@ namespace WebAddressbookTests
                 NameOfGroup = null
             };
             List<ContactData> oldContacts = appManager.Contacts.GetContactList();
+            ContactData oldData = oldContacts[0];
 
             if (!appManager.Contacts.IsContactPresent())
             {
@@ -35,14 +36,21 @@ namespace WebAddressbookTests
             }
             appManager.Contacts.Modify(1, newContactData);
 
+            Assert.AreEqual(oldContacts.Count, appManager.Contacts.GetContactCount());
+
             List<ContactData> newContacts = appManager.Contacts.GetContactList();
             if (oldContacts.Count != 0) oldContacts[0].FormattedName = newContactData.FormattedName;
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts) {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newContactData.FormattedName, contact.FormattedName);
+                }
+            }
         }
-
-
 
         [Test]
         public void ContactModificationByIndexTest()
@@ -77,6 +85,8 @@ namespace WebAddressbookTests
                 }
                 appManager.Contacts.Modify(1, newContactData);
             }
+
+            Assert.AreEqual(oldContacts.Count, appManager.Contacts.GetContactCount());
 
             List<ContactData> newContacts = appManager.Contacts.GetContactList();
             if(oldContacts.Count != 0) oldContacts[0].FormattedName = newContactData.FormattedName;
