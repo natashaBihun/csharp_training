@@ -72,9 +72,11 @@ namespace WebAddressbookTests
             };
             List<ContactData> oldContacts = appManager.Contacts.GetContactList();
             int contactInedx = 2;
+            ContactData oldData = oldContacts[0];
 
             if (appManager.Contacts.IsContactPresent(contactInedx))
             {
+                oldData = oldContacts[contactInedx - 1];
                 appManager.Contacts.Modify(contactInedx, newContactData);
             }
             else
@@ -83,16 +85,26 @@ namespace WebAddressbookTests
                 {
                     appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
                 }
-                appManager.Contacts.Modify(1, newContactData);
+                contactInedx = 1;
+                appManager.Contacts.Modify(contactInedx, newContactData);
             }
 
             Assert.AreEqual(oldContacts.Count, appManager.Contacts.GetContactCount());
 
             List<ContactData> newContacts = appManager.Contacts.GetContactList();
-            if(oldContacts.Count != 0) oldContacts[0].FormattedName = newContactData.FormattedName;
+            if(oldContacts.Count >= contactInedx)
+                oldContacts[contactInedx - 1].FormattedName = newContactData.FormattedName;
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newContactData.FormattedName, contact.FormattedName);
+                }
+            }
         }
     }
 }

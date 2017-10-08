@@ -48,14 +48,21 @@ namespace WebAddressbookTests
                 {
                     appManager.Groups.Create(new GroupData() { Name = "new group" });
                 }
-                appManager.Groups.Remove(1);
+                groupIndex = 1;
+                appManager.Groups.Remove(groupIndex);
             }
 
             Assert.AreEqual(oldGroups.Count - 1, appManager.Groups.GetGroupCount());
 
             List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            if (oldGroups.Count != 0) oldGroups.RemoveAt(0);
+            GroupData toBeRemoved = oldGroups[groupIndex - 1];
+            if (oldGroups.Count >= groupIndex) oldGroups.RemoveAt(groupIndex - 1);
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData group in newGroups)
+            {
+                Assert.AreNotEqual(group.Id, toBeRemoved.Id);
+            }
         }
     }
 }

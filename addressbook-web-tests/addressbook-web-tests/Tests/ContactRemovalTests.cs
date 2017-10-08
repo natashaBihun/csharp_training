@@ -51,14 +51,21 @@ namespace WebAddressbookTests
                 {
                     appManager.Contacts.Create(new ContactData() { FirstName = "new contact" });
                 }
-                appManager.Contacts.Remove(1);
+                contactInedx = 1;
+                appManager.Contacts.Remove(contactInedx);
             }
 
             Assert.AreEqual(oldContacts.Count - 1, appManager.Contacts.GetContactCount());
 
             List<ContactData> newContacts = appManager.Contacts.GetContactList();
-            if (oldContacts.Count != 0) oldContacts.RemoveAt(0);
+            ContactData toBeRemoved = oldContacts[contactInedx - 1];
+            if (oldContacts.Count >= contactInedx) oldContacts.RemoveAt(contactInedx - 1);
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
     }
 }

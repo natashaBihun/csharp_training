@@ -53,9 +53,11 @@ namespace WebAddressbookTests
             };
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();
             int groupIndex = 2;
+            GroupData oldData = oldGroups[0];
 
             if (appManager.Groups.IsGroupPresent(groupIndex))
             {
+                oldData = oldGroups[groupIndex - 1];
                 appManager.Groups.Modify(groupIndex, newData);
             }
             else
@@ -64,16 +66,25 @@ namespace WebAddressbookTests
                 {
                     appManager.Groups.Create(new GroupData() { Name = "new group" });
                 }
-                appManager.Groups.Modify(1, newData);
+                groupIndex = 1;
+                appManager.Groups.Modify(groupIndex, newData);                
             }
 
             Assert.AreEqual(oldGroups.Count, appManager.Groups.GetGroupCount());
 
             List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            if (oldGroups.Count != 0) oldGroups[0].Name = newData.Name;
+            if (oldGroups.Count >= groupIndex) oldGroups[groupIndex - 1].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData group in newGroups)
+            {
+                if (group.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Name, group.Name);
+                }
+            }
         }
     }
 }
