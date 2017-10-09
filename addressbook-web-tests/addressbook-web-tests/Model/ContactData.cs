@@ -167,6 +167,10 @@ namespace WebAddressbookTests
             }
         }
         public string Id { get; set; }
+        public string WorkPhone { get; set; }
+        public string SecondEmail { get; set; }
+        public string ThirdEmail { get; set; }
+
         public ContactData() { }
 
         public ContactData(string firstName)

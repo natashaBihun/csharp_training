@@ -146,7 +146,10 @@ namespace WebAddressbookTests
         }
         public ContactData GetContactInformationFromTable(int index)
         {
-            throw new NotImplementedException();
+            manager.Navigator.GoToContactsPage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElement(By.TagName("td"));
+            string lastName = cells[1].Text;
+
         }
 
         public ContactData GetContactInformationFromEditForm(int index)
@@ -162,7 +165,17 @@ namespace WebAddressbookTests
             string firstEmail = driver.FindElement(By.Name("email")).GetAttribute("value");
             string secondEmail = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string thirdEmail = driver.FindElement(By.Name("email3")).GetAttribute("value");
-            return this;
+            return new ContactData() {
+                FirstName = firstName,
+                LastName = lastName,
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email = firstEmail,
+                SecondEmail = secondEmail,
+                ThirdEmail = thirdEmail            
+            };
         }
     }
 }
