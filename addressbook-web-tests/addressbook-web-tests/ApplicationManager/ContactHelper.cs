@@ -15,7 +15,6 @@ namespace WebAddressbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-
         public ContactHelper Create(ContactData contactData) {
             manager.Navigator.GoToContactsPage();
 
@@ -144,6 +143,26 @@ namespace WebAddressbookTests
         public int GetContactCount()
         {
             return driver.FindElements(By.XPath("//tr[@name='entry']")).Count;
+        }
+        public ContactData GetContactInformationFromTable(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigator.GoToContactsPage();
+            InitContactModification(index);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string firstEmail = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string secondEmail = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string thirdEmail = driver.FindElement(By.Name("email3")).GetAttribute("value");
+            return this;
         }
     }
 }
