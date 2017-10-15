@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WebAddressbookTests
@@ -14,9 +15,11 @@ namespace WebAddressbookTests
         private string _title = "";
         private string _company = "";
         private string _address = "";
-        private string _homePhone = "";
+        private string _homePhone = "";        
         private string _mobilePhone = "";
+        private string _allPhones;
         private string _email = "";
+        private string _allEmails;
         private string _bDay = "";
         private string _bMonth = "-";
         private string _bYear = "";
@@ -168,8 +171,33 @@ namespace WebAddressbookTests
         }
         public string Id { get; set; }
         public string WorkPhone { get; set; }
+        public string AllPhones { get {
+                if (_allPhones != null)
+                {
+                    return _allPhones;
+                }
+                else {
+                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+                }
+            } set {
+                _allPhones = value;
+            }
+        }
+
         public string SecondEmail { get; set; }
         public string ThirdEmail { get; set; }
+        public string AllEmails { get {
+                if (_allEmails != null)
+                {
+                    return _allEmails;
+                }
+                else {
+                    return (CleanUpEmail(Email) + CleanUpEmail(SecondEmail) + CleanUpEmail(ThirdEmail)).Trim();
+                }
+            } set {
+                _allEmails = value;
+            }
+        }
 
         public ContactData() { }
 
@@ -224,6 +252,21 @@ namespace WebAddressbookTests
                 return 1;
             }
             return otherContact.FormattedName.CompareTo(otherContact.FormattedName);
+        }
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "") {
+                return "";
+            }
+            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+        }
+        private string CleanUpEmail(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+            return email + "\r\n";
         }
     }
 }

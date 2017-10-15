@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -147,15 +148,27 @@ namespace WebAddressbookTests
         public ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigator.GoToContactsPage();
-            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElement(By.TagName("td"));
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
             string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allPhones = cells[5].Text;            
+            string allEmails = cells[4].Text;
 
+            return new ContactData()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Address = address,
+                AllPhones = allPhones,
+                AllEmails = allEmails
+            };
         }
 
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.GoToContactsPage();
-            InitContactModification(index);
+            InitContactModification(index + 1);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
@@ -176,6 +189,12 @@ namespace WebAddressbookTests
                 SecondEmail = secondEmail,
                 ThirdEmail = thirdEmail            
             };
+        }
+        public int GetNumberOfSearchResults() {
+            manager.Navigator.GoToContactsPage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match match = new Regex(@"\d+").Match(text);
+            return Int32.Parse(match.Value);
         }
     }
 }
