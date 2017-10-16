@@ -68,22 +68,41 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//img[@alt='Edit'])" + "[" + contactIndex + "]")).Click();
             return this;
         }
+        public ContactHelper InitViewDetailsOfContact(int contactIndex)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='Details'])" + "[" + contactIndex + "]")).Click();
+            return this;
+        }        
         public ContactHelper FillContactForm(ContactData contactData)
         {
             Type(By.Name("firstname"), contactData.FirstName);
             Type(By.Name("lastname"), contactData.LastName);
-            Type(By.Name("title"), contactData.Title);
+            Type(By.Name("middlename"), contactData.MiddleName);
+            Type(By.Name("nickname"), contactData.NickName);
             Type(By.Name("company"), contactData.Company);
+            Type(By.Name("title"), contactData.Title);           
             Type(By.Name("address"), contactData.Address);
             Type(By.Name("home"), contactData.HomePhone);
             Type(By.Name("mobile"), contactData.MobilePhone);
+            Type(By.Name("work"), contactData.WorkPhone);
+            Type(By.Name("fax"), contactData.Fax);
             Type(By.Name("email"), contactData.Email);
+            Type(By.Name("email2"), contactData.SecondEmail);
+            Type(By.Name("email3"), contactData.ThirdEmail);
+            Type(By.Name("homepage"), contactData.HomePage);
             SelectingType(By.Name("bday"), contactData.BDay);
             SelectingType(By.Name("bmonth"), contactData.BMonth);
             Type(By.Name("byear"), contactData.BYear);
-            if(IsElementPresent(By.Name("new_group"))) {
+            SelectingType(By.Name("aday"), contactData.ADay);
+            SelectingType(By.Name("amonth"), contactData.AMonth);
+            Type(By.Name("ayear"), contactData.AYear);
+            if (IsElementPresent(By.Name("new_group")))
+            {
                 SelectingType(By.Name("new_group"), contactData.NameOfGroup);
             }
+            Type(By.Name("address2"), contactData.SecondaryAddress);
+            Type(By.Name("phone2"), contactData.SecondaryHomePhone);
+            Type(By.Name("notes"), contactData.Notes);
             // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
 
             return this;
@@ -171,24 +190,63 @@ namespace WebAddressbookTests
             InitContactModification(index + 1);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+            string nickname = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
             string firstEmail = driver.FindElement(By.Name("email")).GetAttribute("value");
             string secondEmail = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string thirdEmail = driver.FindElement(By.Name("email3")).GetAttribute("value");
+            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+            string bday = driver.FindElement(By.Name("bday")).GetAttribute("value");
+            string bmonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
+            string byear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+            string aday = driver.FindElement(By.Name("aday")).GetAttribute("value");
+            string amonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
+            amonth = amonth.Substring(0, 1).ToUpper() + amonth.Substring(1, amonth.Length - 1).ToLower();
+            string ayear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+            string address2 = driver.FindElement(By.Name("address2")).GetAttribute("value");
+            string phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
+            string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
+
             return new ContactData() {
                 FirstName = firstName,
                 LastName = lastName,
+                MiddleName = middlename,
+                NickName = nickname,
+                Company = company,
+                Title = title,
                 Address = address,
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
                 WorkPhone = workPhone,
+                Fax = fax,
                 Email = firstEmail,
                 SecondEmail = secondEmail,
-                ThirdEmail = thirdEmail            
+                ThirdEmail = thirdEmail,
+                HomePage = homepage,
+                BDay = bday,
+                BMonth = bmonth,
+                BYear = byear,
+                ADay = aday,
+                AMonth = amonth,
+                AYear = ayear,
+                SecondaryAddress = address2,
+                SecondaryHomePhone = phone2,
+                Notes = notes
             };
+        }
+        public string GetContactInformationFromDetailsPage(int index)
+        {
+            manager.Navigator.GoToContactsPage();
+            InitViewDetailsOfContact(index + 1);
+            string details =  driver.FindElement(By.Id("content")).Text;
+            return Regex.Replace(details, "\r\n\r\n", "\r\n");
         }
         public int GetNumberOfSearchResults() {
             manager.Navigator.GoToContactsPage();

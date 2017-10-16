@@ -25,14 +25,12 @@ namespace WebAddressbookTests
         [Test]
         public void ContactInformationFromDetailsPageTest()
         {
-            ContactData fromTable = appManager.Contacts.GetContactInformationFromTable(0);
-            ContactData fromForm = appManager.Contacts.GetContactInformationFromEditForm(0);
+            int index = 0;
+            string fromDetailsPage = appManager.Contacts.GetContactInformationFromDetailsPage(index);
+            ContactData fromForm = appManager.Contacts.GetContactInformationFromEditForm(index);
 
             //verification
-            Assert.AreEqual(fromTable, fromForm);
-            Assert.AreEqual(fromTable.Address, fromForm.Address);
-            Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
-            Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
+            Assert.AreEqual(fromDetailsPage, fromForm.AllData);
         }
     }
 }
