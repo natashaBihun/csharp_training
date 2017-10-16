@@ -12,7 +12,10 @@ namespace WebAddressbookTests
     {
         [Test]
         public void TestSearch() {
-            System.Console.Out.Write(appManager.Contacts.GetNumberOfSearchResults());
+            int numberOfSearchResults = appManager.Contacts.GetNumberOfSearchResults();
+            int countOfContacts = appManager.Contacts.GetContactCount();
+
+            Assert.AreEqual(numberOfSearchResults, countOfContacts);
         }
     }
 }

@@ -192,8 +192,10 @@ namespace WebAddressbookTests
         }
         public int GetNumberOfSearchResults() {
             manager.Navigator.GoToContactsPage();
+
             string text = driver.FindElement(By.TagName("label")).Text;
             Match match = new Regex(@"\d+").Match(text);
+
             return Int32.Parse(match.Value);
         }
     }
