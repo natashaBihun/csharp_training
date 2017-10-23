@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using WebAddressbookTests;
 using Newtonsoft.Json;
-using Microsoft.Office.Interop.Excel;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace addressbook_test_data_generators
 {
@@ -56,8 +56,11 @@ namespace addressbook_test_data_generators
 
         static void WriteGroupsToExcelFile(List<GroupData> groups, string fileName)
         {
-            Application application = new Application();
+            Excel.Application application = new Excel.Application();
             application.Visible = true;
+            Excel.Workbook workbook = application.Workbooks.Add();
+            Excel.Worksheet worksheet = workbook.ActiveSheet;
+            worksheet.Cells[1, 1] = "test";
         }
 
         static void WriteGroupsToCSVFile(List<GroupData> groups, StreamWriter writer) {
