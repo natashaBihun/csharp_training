@@ -8,13 +8,14 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace WebAddressbookTests
 {
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
     {
-        [Test, TestCaseSource("GroupDataFromJSONFile")]
+        [Test, TestCaseSource("GroupDataFromExcelFile")]
         public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();
@@ -88,6 +89,29 @@ namespace WebAddressbookTests
             return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"groups.json"));
         }
 
+        public static IEnumerable<GroupData> GroupDataFromExcelFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            Excel.Application application = new Excel.Application();
+            //Excel.Workbook workbook = application.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx"));
+            Excel.Workbook workbook = application.Workbooks.Open(@"C:\Users\1\Source\Repos\csharp_training\addressbook-web-tests\addressbook-test-data-generators\bin\Debug\groups.xlsx");
+            Excel.Worksheet worksheet = workbook.ActiveSheet;
+            Excel.Range range = worksheet.UsedRange;
 
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    Name = Convert.ToString(range.Cells[i, 1].Value),
+                    Header = Convert.ToString(range.Cells[i, 2].Value),
+                    Footer = Convert.ToString(range.Cells[i, 3].Value)
+                });
+            }
+
+            workbook.Close();
+            application.Visible = false;
+            application.Quit();
+            return groups;
+        }
     }
 }

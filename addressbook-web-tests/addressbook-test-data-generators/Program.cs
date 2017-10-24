@@ -60,7 +60,22 @@ namespace addressbook_test_data_generators
             application.Visible = true;
             Excel.Workbook workbook = application.Workbooks.Add();
             Excel.Worksheet worksheet = workbook.ActiveSheet;
-            worksheet.Cells[1, 1] = "test";
+
+            int row = 1;
+            foreach (GroupData group in groups)
+            {
+                worksheet.Cells[row, 1] = group.Name;
+                worksheet.Cells[row, 2] = group.Header;
+                worksheet.Cells[row, 3] = group.Footer;
+                row++;
+            }
+
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+            File.Delete(fullPath);
+            workbook.SaveAs(fullPath);
+            workbook.Close();
+            application.Visible = false;
+            application.Quit();
         }
 
         static void WriteGroupsToCSVFile(List<GroupData> groups, StreamWriter writer) {
