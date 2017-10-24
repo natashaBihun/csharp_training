@@ -24,7 +24,7 @@ namespace WebAddressbookTests
         private string _bMonth = "-";
         private string _bYear = "";
         private string _nameOfGroup = null;
-        private string _allData;
+        private string _allData = "";
 
         public string Id { get; set; }
         public string FirstName
