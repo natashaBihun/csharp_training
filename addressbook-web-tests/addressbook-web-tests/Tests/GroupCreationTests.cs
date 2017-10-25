@@ -15,9 +15,9 @@ namespace WebAddressbookTests
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
     {
-        [Test, TestCaseSource("GroupDataFromXMLFile")]
+        [Test, TestCaseSource("GroupDataFromJSONFile")]
         public void GroupCreationTest(GroupData group)
-        {
+        {            
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();
             appManager.Groups.Create(group);
 
@@ -65,7 +65,7 @@ namespace WebAddressbookTests
 
         public static IEnumerable<GroupData> GroupDataFromCSVFile() {
             List<GroupData> groups = new List<GroupData>();
-            string[] lines = File.ReadAllLines(@"groups.csv");
+            string[] lines = File.ReadAllLines(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"groups.csv"));
             foreach (string line in lines) {
                 string[] parts = line.Split(',');
                 groups.Add(new GroupData(parts[0])
@@ -81,19 +81,19 @@ namespace WebAddressbookTests
         {
             return (List<GroupData>) 
                 new XmlSerializer(typeof(List<GroupData>))
-                .Deserialize(new StreamReader(@"groups.xml"));
+                .Deserialize(new StreamReader(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"groups.xml")));
         }
 
         public static IEnumerable<GroupData> GroupDataFromJSONFile()
         {
-            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"groups.json"));
+            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"groups.json")));
         }
 
         public static IEnumerable<GroupData> GroupDataFromExcelFile()
         {
             List<GroupData> groups = new List<GroupData>();
             Excel.Application application = new Excel.Application();
-            Excel.Workbook workbook = application.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx"));
+            Excel.Workbook workbook = application.Workbooks.Open(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"groups.xlsx"));
             Excel.Worksheet worksheet = workbook.ActiveSheet;
             Excel.Range range = worksheet.UsedRange;
 

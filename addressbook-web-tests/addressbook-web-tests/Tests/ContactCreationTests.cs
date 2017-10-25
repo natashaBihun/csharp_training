@@ -53,12 +53,12 @@ namespace WebAddressbookTests
         {
             return (List<ContactData>)
                 new XmlSerializer(typeof(List<ContactData>))
-                .Deserialize(new StreamReader(@"contacts.xml"));
+                .Deserialize(new StreamReader(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"contacts.xml")));
         }
 
         public static IEnumerable<ContactData> ContactDataFromJSONFile()
         {
-            return JsonConvert.DeserializeObject<List<ContactData>>(File.ReadAllText(@"contacts.json"));
+            return JsonConvert.DeserializeObject<List<ContactData>>(File.ReadAllText(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"contacts.json")));
         }
     }
 }
