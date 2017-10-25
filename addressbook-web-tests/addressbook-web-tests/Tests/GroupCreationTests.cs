@@ -15,7 +15,7 @@ namespace WebAddressbookTests
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
     {
-        [Test, TestCaseSource("GroupDataFromExcelFile")]
+        [Test, TestCaseSource("GroupDataFromXMLFile")]
         public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();
@@ -93,8 +93,7 @@ namespace WebAddressbookTests
         {
             List<GroupData> groups = new List<GroupData>();
             Excel.Application application = new Excel.Application();
-            //Excel.Workbook workbook = application.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx"));
-            Excel.Workbook workbook = application.Workbooks.Open(@"C:\Users\user\Source\Repos\csharp_training\addressbook-web-tests\addressbook-test-data-generators\bin\Debug\groups.xlsx");
+            Excel.Workbook workbook = application.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx"));
             Excel.Worksheet worksheet = workbook.ActiveSheet;
             Excel.Range range = worksheet.UsedRange;
 
