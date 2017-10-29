@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -298,6 +299,13 @@ namespace WebAddressbookTests
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(t => t.FindElements(By.CssSelector("div.msgbox")).Count > 0);
         }
+        public void RemoveContactFromGroup(GroupData group, ContactData contact)
+        {
+            manager.Navigator.GoToContactsPage();
+            SetGroupFilter(group.Id);
+            SelectContact(contact.Id);
+            SelectGroupToRemove(group.Id);
+        }
         public void CommitAddingContactToGroup()
         {
             driver.FindElement(By.Name("add")).Click();
@@ -306,9 +314,25 @@ namespace WebAddressbookTests
         {
             new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
         }
+        public void SelectGroupToRemove(string id)
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                var selected = (from c in db.Contacts
+                from gcr in db.GCR
+                  .Where(t => t.ContactId == c.Id && t.GroupId == id)
+                  select gcr).FirstOrDefault();
+                selected.ContactId = null;
+                selected.GroupId = null;
+            }
+        }
         public void ClearGroupFilter()
         {
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+        private void SetGroupFilter(string id)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByValue(id);
         }
     }
 }

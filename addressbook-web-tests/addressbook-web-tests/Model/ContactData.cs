@@ -436,5 +436,15 @@ namespace WebAddressbookTests
                         select c).ToList();
             }
         }
+        public List<GroupData> GetGroups()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Groups
+                        from gcr in db.GCR
+                        .Where(t => t.ContactId == Id && t.GroupId == g.Id)
+                        select g).Distinct().ToList();
+            }
+        }
     }
 }
