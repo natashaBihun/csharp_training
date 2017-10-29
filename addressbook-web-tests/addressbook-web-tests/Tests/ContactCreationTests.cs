@@ -13,21 +13,35 @@ using Newtonsoft.Json;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : ContactTestBase
     {
         [Test, TestCaseSource("ContactDataFromXMLFile")]
         public void ContactCreationTest(ContactData contactData)
         {
-            List<ContactData> oldContacts = appManager.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             appManager.Contacts.Create(contactData);
 
             Assert.AreEqual(oldContacts.Count + 1, appManager.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = appManager.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.Add(contactData);
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+        }
+
+        [Test]
+        public void TestDBContactConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<ContactData> fromUI = appManager.Contacts.GetContactList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<ContactData> fromDB = ContactData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
         }
 
         public static IEnumerable<ContactData> RandomContactDataProvider()

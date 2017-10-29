@@ -38,12 +38,34 @@ namespace WebAddressbookTests
 
             return this;
         }
+        public ContactHelper Modify(ContactData contact, ContactData newContactData)
+        {
+            manager.Navigator.GoToContactsPage();
+
+            //SelectContact(contactIndex);
+            InitContactModification(contact.Id);
+            FillContactForm(newContactData);
+            SubmitContactModification();
+            ReturnToContactsPage();
+
+            return this;
+        }
         public ContactHelper Remove(int contactIndex)
         {
             manager.Navigator.GoToContactsPage();
 
             SelectContact(contactIndex);
             RemoveContact();            
+            ReturnToContactsPage();
+
+            return this;
+        }
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.GoToContactsPage();
+
+            SelectContact(contact.Id);
+            RemoveContact();
             ReturnToContactsPage();
 
             return this;
@@ -58,6 +80,11 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name='selected[]'])" + "[" + contactIndex + "]")).Click();
             return this;
         }
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.Id(id)).Click();
+            return this;
+        }
         public ContactHelper InitContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -66,6 +93,11 @@ namespace WebAddressbookTests
         public ContactHelper InitContactModification(int contactIndex)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])" + "[" + contactIndex + "]")).Click();
+            return this;
+        }
+        public ContactHelper InitContactModification(string id)
+        {
+            driver.FindElement(By.XPath("(//a[img[@alt='Edit']][@href='edit.php?id=" + id + "'])")).Click();
             return this;
         }
         public ContactHelper InitViewDetailsOfContact(int contactIndex)
@@ -255,6 +287,28 @@ namespace WebAddressbookTests
             Match match = new Regex(@"\d+").Match(text);
 
             return Int32.Parse(match.Value);
+        }
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToContactsPage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(t => t.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+        public void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+        public void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
         }
     }
 }

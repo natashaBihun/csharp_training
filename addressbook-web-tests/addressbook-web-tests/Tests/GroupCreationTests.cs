@@ -5,6 +5,7 @@ using System.Threading;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -13,17 +14,17 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         [Test, TestCaseSource("GroupDataFromJSONFile")]
         public void GroupCreationTest(GroupData group)
         {            
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             appManager.Groups.Create(group);
 
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -39,17 +40,25 @@ namespace WebAddressbookTests
                 Header = "header",
                 Footer = "footer"
             };
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             appManager.Groups.Create(group);
 
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
+
+        [Test]
+        public void TestDBGroupConnectivity() {
+            foreach(ContactData contact in GroupData.GetAll()[0].GetContacts()){
+                System.Console.Out.WriteLine(contact);
+            }
+        }
+
         public static IEnumerable<GroupData> RandomGroupDataProvider() {
             List<GroupData> groups = new List<GroupData>();
             for (int i = 0; i < 5; i++)
