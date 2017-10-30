@@ -309,7 +309,7 @@ namespace WebAddressbookTests
             manager.Navigator.GoToContactsPage();
             SetGroupFilter(group.Id);
             SelectContact(contact.Id);
-            SelectGroupToRemove(group.Id);
+            SelectGroupToRemove(group.Id, contact.Id);
         }
         public void CommitAddingContactToGroup()
         {
@@ -319,13 +319,12 @@ namespace WebAddressbookTests
         {
             new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
         }
-        public void SelectGroupToRemove(string id)
+        public void SelectGroupToRemove(string groupId, string contactId)
         {
             using (AddressBookDB db = new AddressBookDB())
             {
-                (from c in db.Contacts
-                 from gcr in db.GCR
-                 .Where(t => t.ContactId == c.Id && t.GroupId == id)
+                (from gcr in db.GCR
+                 .Where(t => t.ContactId == contactId && t.GroupId == groupId)
                  select gcr).Delete();
             }
         }

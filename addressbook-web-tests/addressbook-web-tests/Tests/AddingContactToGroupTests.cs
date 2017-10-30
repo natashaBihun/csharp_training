@@ -11,20 +11,35 @@ namespace WebAddressbookTests
     {
         [Test]
         public void AddingContactToGroupTest() {
-            GroupData group = GroupData.GetAll()[0];
-            List<ContactData> oldList = group.GetContacts();
-            ContactData contact = ContactData.GetAll().Except(oldList).FirstOrDefault();
-            if (contact != null)
-            {
-                appManager.Contacts.AddContactToGroup(contact, group);
+            List<GroupData> groups = GroupData.GetAll();
+            List<ContactData> contacts = ContactData.GetAll();
 
-                List<ContactData> newList = group.GetContacts();
-                oldList.Add(contact);
-                oldList.Sort();
-                newList.Sort();
-                Assert.AreEqual(oldList, newList);
+            if (groups.Count != 0 && contacts.Count != 0 )
+            {
+                for (int i = 0; i < groups.Count; i++) {
+                    List<ContactData> oldList = groups[i].GetContacts();
+                    if (oldList.Count < contacts.Count)
+                    {
+                        string contactId = contacts.Select(t => t.Id)
+                            .Except(oldList.Select(t => t.Id))
+                            .ToList()
+                            .FirstOrDefault();
+
+                        ContactData contact = contacts.Where(t => t.Id == contactId).FirstOrDefault();
+
+                        appManager.Contacts.AddContactToGroup(contact, groups[i]);
+
+                        List<ContactData> newList = groups[i].GetContacts();
+                        oldList.Add(contact);
+                        oldList.Sort();
+                        newList.Sort();
+                        Assert.AreEqual(oldList, newList);
+                        break;
+                    }
+                    else if(i == (groups.Count - 1)) System.Console.Out.WriteLine("All groups have mapped all contacts");
+                }
             }
-            else System.Console.Out.Write("All contacts mapped to selected group");
+            else System.Console.Out.WriteLine("No groups or contacts");                      
         }
     }
 }

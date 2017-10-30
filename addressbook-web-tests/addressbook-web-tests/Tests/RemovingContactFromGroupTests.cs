@@ -12,20 +12,32 @@ namespace WebAddressbookTests
     {
         [Test]
         public void RemovingContactFromGroupTest()
-        {                        
-            ContactData contact = ContactData.GetAll().Where(t => t.GetGroups().Count != 0).Select(t => t).FirstOrDefault();
-            if (contact != null) {
-                List<GroupData> oldList = contact.GetGroups();
-                GroupData group = oldList.FirstOrDefault();
+        {
+            List<GroupData> groups = GroupData.GetAll();
+            List<ContactData> contacts = ContactData.GetAll();
 
-                appManager.Contacts.RemoveContactFromGroup(group, contact);
+            if (groups.Count != 0 && contacts.Count != 0)
+            {
+                for (int i = 0; i < groups.Count; i++)
+                {
+                    List<ContactData> oldList = groups[i].GetContacts();
+                    if (oldList.Count != 0)
+                    {
+                        ContactData contact = oldList.FirstOrDefault();
 
-                List<GroupData> newList = contact.GetGroups();
-                oldList.RemoveAt(0);
-                oldList.Sort();
-                newList.Sort();
-                Assert.AreEqual(oldList, newList);
-            } 
+                        appManager.Contacts.RemoveContactFromGroup(groups[i], contact);
+
+                        List<ContactData> newList = groups[i].GetContacts();
+                        oldList.RemoveAt(0);
+                        oldList.Sort();
+                        newList.Sort();
+                        Assert.AreEqual(oldList, newList);
+                        break;
+                    }
+                    else if (i == (groups.Count - 1)) System.Console.Out.WriteLine("All groups haven't mapped any contacts");
+                }
+            }
+            else System.Console.Out.WriteLine("No groups or contacts");
         }
     }
 }
