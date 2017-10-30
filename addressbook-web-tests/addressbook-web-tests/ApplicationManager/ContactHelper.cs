@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using LinqToDB;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,7 +17,8 @@ namespace WebAddressbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-        public ContactHelper Create(ContactData contactData) {
+        public ContactHelper Create(ContactData contactData)
+        {
             manager.Navigator.GoToContactsPage();
 
             InitContactCreation();
@@ -56,7 +57,7 @@ namespace WebAddressbookTests
             manager.Navigator.GoToContactsPage();
 
             SelectContact(contactIndex);
-            RemoveContact();            
+            RemoveContact();
             ReturnToContactsPage();
 
             return this;
@@ -105,7 +106,7 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.XPath("(//img[@alt='Details'])" + "[" + contactIndex + "]")).Click();
             return this;
-        }        
+        }
         public ContactHelper FillContactForm(ContactData contactData)
         {
             Type(By.Name("firstname"), contactData.FirstName);
@@ -113,7 +114,7 @@ namespace WebAddressbookTests
             Type(By.Name("middlename"), contactData.MiddleName);
             Type(By.Name("nickname"), contactData.NickName);
             Type(By.Name("company"), contactData.Company);
-            Type(By.Name("title"), contactData.Title);           
+            Type(By.Name("title"), contactData.Title);
             Type(By.Name("address"), contactData.Address);
             Type(By.Name("home"), contactData.HomePhone);
             Type(By.Name("mobile"), contactData.MobilePhone);
@@ -152,8 +153,9 @@ namespace WebAddressbookTests
             _contactCache = null;
             return this;
         }
-        public ContactHelper RemoveContact() {
-            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();           
+        public ContactHelper RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
             _contactCache = null;
             return this;
@@ -172,7 +174,8 @@ namespace WebAddressbookTests
         }
         public List<ContactData> GetContactList()
         {
-            if (_contactCache == null) {
+            if (_contactCache == null)
+            {
                 _contactCache = new List<ContactData>();
 
                 manager.Navigator.GoToContactsPage();
@@ -189,7 +192,7 @@ namespace WebAddressbookTests
                         LastName = elementsLastName.ElementAt(i).Text
                     });
                 }
-            }            
+            }
 
             return new List<ContactData>(_contactCache);
         }
@@ -204,7 +207,7 @@ namespace WebAddressbookTests
             string lastName = cells[1].Text;
             string firstName = cells[2].Text;
             string address = cells[3].Text;
-            string allPhones = cells[5].Text;            
+            string allPhones = cells[5].Text;
             string allEmails = cells[4].Text;
 
             return new ContactData()
@@ -247,7 +250,8 @@ namespace WebAddressbookTests
             string phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
             string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
 
-            return new ContactData() {
+            return new ContactData()
+            {
                 FirstName = firstName,
                 LastName = lastName,
                 MiddleName = middlename,
@@ -278,10 +282,11 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToContactsPage();
             InitViewDetailsOfContact(index + 1);
-            string details =  driver.FindElement(By.Id("content")).Text;
+            string details = driver.FindElement(By.Id("content")).Text;
             return Regex.Replace(details, "\r\n\r\n", "\r\n");
         }
-        public int GetNumberOfSearchResults() {
+        public int GetNumberOfSearchResults()
+        {
             manager.Navigator.GoToContactsPage();
 
             string text = driver.FindElement(By.TagName("label")).Text;
@@ -318,12 +323,10 @@ namespace WebAddressbookTests
         {
             using (AddressBookDB db = new AddressBookDB())
             {
-                var selected = (from c in db.Contacts
-                from gcr in db.GCR
-                  .Where(t => t.ContactId == c.Id && t.GroupId == id)
-                  select gcr).FirstOrDefault();
-                selected.ContactId = null;
-                selected.GroupId = null;
+                (from c in db.Contacts
+                 from gcr in db.GCR
+                 .Where(t => t.ContactId == c.Id && t.GroupId == id)
+                 select gcr).Delete();
             }
         }
         public void ClearGroupFilter()
