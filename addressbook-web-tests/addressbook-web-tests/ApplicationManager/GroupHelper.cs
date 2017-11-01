@@ -155,5 +155,41 @@ namespace WebAddressbookTests
         {
             return driver.FindElements(By.CssSelector("span.group")).Count;
         }
+
+        public List<GroupData> IsGroupPresents(List<GroupData> groups)
+        {
+            if (groups.Count == 0)
+            {
+                Create(new GroupData() { Name = "new group" });
+                groups = GroupData.GetAll();
+            }
+
+            return groups;
+        }
+
+        public GroupData SelectGroupWithoutContact(List<GroupData> groups, List<ContactData> contacts)
+        {
+            for (int i = 0; i < groups.Count; i++)
+            {
+                List<ContactData> contactsList = groups[i].GetContacts();
+                if (contactsList.Count < contacts.Count)
+                {
+                    return groups[i];
+                }
+            }
+            return null;
+        }
+        public GroupData SelectGroupWithContact(List<GroupData> groups, List<ContactData> contacts)
+        {
+            for (int i = 0; i < groups.Count; i++)
+            {
+                List<ContactData> contactsList = groups[i].GetContacts();
+                if (contactsList.Count != 0)
+                {
+                    return groups[i];
+                }
+            }
+            return null;
+        }
     }
 }

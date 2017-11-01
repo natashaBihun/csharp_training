@@ -10,36 +10,38 @@ namespace WebAddressbookTests
     public class AddingContactToGroupTests : AuthTestBase
     {
         [Test]
-        public void AddingContactToGroupTest() {
+        public void AddingContactToGroupTest()
+        {
             List<GroupData> groups = GroupData.GetAll();
             List<ContactData> contacts = ContactData.GetAll();
 
-            if (groups.Count != 0 && contacts.Count != 0 )
+            groups = appManager.Groups.IsGroupPresents(groups);
+            contacts = appManager.Contacts.IsContactPresents(contacts);
+
+            GroupData group = groups[0];
+            ContactData contact = contacts[0];
+            List<ContactData> oldList = group.GetContacts();
+
+            if (appManager.Groups.SelectGroupWithoutContact(groups, contacts) != null)
             {
-                for (int i = 0; i < groups.Count; i++) {
-                    List<ContactData> oldList = groups[i].GetContacts();
-                    if (oldList.Count < contacts.Count)
-                    {
-                        string contactId = contacts.Select(t => t.Id)
-                            .Except(oldList.Select(t => t.Id))
-                            .ToList()
-                            .FirstOrDefault();
-
-                        ContactData contact = contacts.Where(t => t.Id == contactId).FirstOrDefault();
-
-                        appManager.Contacts.AddContactToGroup(contact, groups[i]);
-
-                        List<ContactData> newList = groups[i].GetContacts();
-                        oldList.Add(contact);
-                        oldList.Sort();
-                        newList.Sort();
-                        Assert.AreEqual(oldList, newList);
-                        break;
-                    }
-                    else if(i == (groups.Count - 1)) System.Console.Out.WriteLine("All groups have mapped all contacts");
-                }
+                group = appManager.Groups.SelectGroupWithoutContact(groups, contacts);
             }
-            else System.Console.Out.WriteLine("No groups or contacts");                      
+            else
+            {
+                appManager.Contacts.Create(new ContactData() { FirstName = "Name", LastName = "Surname" });
+                contacts = ContactData.GetAll();
+            }
+            oldList = group.GetContacts();
+            contact = appManager.Contacts.SelectContact(oldList, contacts);
+
+            appManager.Contacts.AddContactToGroup(contact, group);
+
+
+            List<ContactData> newList = group.GetContacts();
+            oldList.Add(contact);
+            oldList.Sort();
+            newList.Sort();
+            Assert.AreEqual(oldList, newList);
         }
     }
 }

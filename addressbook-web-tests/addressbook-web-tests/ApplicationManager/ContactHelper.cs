@@ -336,5 +336,26 @@ namespace WebAddressbookTests
         {
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByValue(id);
         }
+
+        public List<ContactData> IsContactPresents(List<ContactData> contacts)
+        {
+            if (contacts.Count == 0)
+            {
+                Create(new ContactData() { FirstName = "Name", LastName = "Surname" });
+                contacts = ContactData.GetAll();
+            }
+
+            return contacts;
+        }
+
+        public ContactData SelectContact(List<ContactData> oldList, List<ContactData> contacts)
+        {
+            string contactId = contacts.Select(t => t.Id)
+                .Except(oldList.Select(t => t.Id))
+                .ToList()
+                .FirstOrDefault();
+            ContactData contact = contacts.Where(t => t.Id == contactId).FirstOrDefault();
+            return contact;
+        }
     }
 }

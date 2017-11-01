@@ -16,28 +16,29 @@ namespace WebAddressbookTests
             List<GroupData> groups = GroupData.GetAll();
             List<ContactData> contacts = ContactData.GetAll();
 
-            if (groups.Count != 0 && contacts.Count != 0)
-            {
-                for (int i = 0; i < groups.Count; i++)
-                {
-                    List<ContactData> oldList = groups[i].GetContacts();
-                    if (oldList.Count != 0)
-                    {
-                        ContactData contact = oldList.FirstOrDefault();
+            groups = appManager.Groups.IsGroupPresents(groups);
+            contacts = appManager.Contacts.IsContactPresents(contacts);
 
-                        appManager.Contacts.RemoveContactFromGroup(groups[i], contact);
+            GroupData group = groups.First();
+            ContactData contact = contacts.First();
+            List<ContactData> oldList = group.GetContacts();
 
-                        List<ContactData> newList = groups[i].GetContacts();
-                        oldList.RemoveAt(0);
-                        oldList.Sort();
-                        newList.Sort();
-                        Assert.AreEqual(oldList, newList);
-                        break;
-                    }
-                    else if (i == (groups.Count - 1)) System.Console.Out.WriteLine("All groups haven't mapped any contacts");
-                }
+            if (appManager.Groups.SelectGroupWithContact(groups, contacts) != null) {
+                group = appManager.Groups.SelectGroupWithContact(groups, contacts);
             }
-            else System.Console.Out.WriteLine("No groups or contacts");
+            else {
+                appManager.Contacts.AddContactToGroup(contact, group);
+            }
+            oldList = group.GetContacts();
+            contact = oldList.FirstOrDefault();
+
+            appManager.Contacts.RemoveContactFromGroup(group, contact);
+
+            List<ContactData> newList = group.GetContacts();
+            oldList.RemoveAt(0);
+            oldList.Sort();
+            newList.Sort();
+            Assert.AreEqual(oldList, newList);
         }
     }
 }
