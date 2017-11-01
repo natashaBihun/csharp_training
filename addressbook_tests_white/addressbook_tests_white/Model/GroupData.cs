@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace addressbook_tests_autoit
+namespace addressbook_tests_white
 {
     public class GroupData : IComparable<GroupData>, IEquatable<GroupData>
     {
