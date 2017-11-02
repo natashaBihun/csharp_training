@@ -36,25 +36,36 @@ namespace addressbook_tests_white
             return groupList;
         }
 
+        public void CloseGroupsDialogue(Window dialogue)
+        {
+            dialogue.Get<Button>("uxCloseAddressButton").Click();
+        }
+
+        public Window OpenGroupsDialogue()
+        {
+            applicationManager.MainWindow.Get<Button>("groupButton").Click();
+            return applicationManager.MainWindow.ModalWindow(GROUPWINTITLE);
+        }
+
         public void Add(GroupData newGroup)
         {
             Window dialogue = OpenGroupsDialogue();
             dialogue.Get<Button>("uxNewAddressButton").Click();
-            TextBox textBox = (TextBox) dialogue.Get(SearchCriteria.ByControlType(ControlType.Edit));
+            TextBox textBox = (TextBox)dialogue.Get(SearchCriteria.ByControlType(ControlType.Edit));
             textBox.Enter(newGroup.Name);
             Keyboard.Instance.PressSpecialKey(KeyboardInput.SpecialKeys.RETURN);
             CloseGroupsDialogue(dialogue);
         }
 
-        private void CloseGroupsDialogue(Window dialogue)
+        public void Remove(GroupData toBeRemoved)
         {
-            dialogue.Get<Button>("uxCloseAddressButton").Click();
-        }
-
-        private Window OpenGroupsDialogue()
-        {
-            applicationManager.MainWindow.Get<Button>("groupButton").Click();
-            return applicationManager.MainWindow.ModalWindow(GROUPWINTITLE);
+            Window droupEditorDialogue = OpenGroupsDialogue();
+            Tree tree = droupEditorDialogue.Get<Tree>("uxAddressTreeView");
+            tree.Node("Contact groups", toBeRemoved.Name).Select();       
+            droupEditorDialogue.Get<Button>("uxDeleteAddressButton").Click();
+            applicationManager.MainWindow.Get<RadioButton>("uxDeleteGroupsOnlyRadioButton").Click();
+            applicationManager.MainWindow.Get<Button>("uxOKAddressButton").Click();
+            CloseGroupsDialogue(droupEditorDialogue);
         }
     }
 }
