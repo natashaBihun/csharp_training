@@ -1,0 +1,13 @@
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\ru\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\ru\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\ru\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\addressbook_tests_autoit.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\b\addressbook_tests_autoit.pdb
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\i\addressbook_tests_autoit\Debug\Interop.AutoItX3Lib.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\i\addressbook_tests_autoit\Debug\addressbook_tests_autoit.csproj.ResolveComReference.cache
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\i\addressbook_tests_autoit\Debug\addressbook_tests_autoit.csproj.CoreCompileInputs.cache
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\i\addressbook_tests_autoit\Debug\addressbook_tests_autoit.dll
+C:\Users\user\Source\Repos\csharp_training\addressbook_tests_autoit\.vs\addressbook_tests_autoit\lut\0\i\addressbook_tests_autoit\Debug\addressbook_tests_autoit.pdb
