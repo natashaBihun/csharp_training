@@ -42,5 +42,14 @@ namespace mantis_tests
             }
             driver.Navigate().GoToUrl(_baseURL + "/manage_proj_page.php");
         }
+        public void GoToManageUserPage()
+        {
+            if (driver.Url == _baseURL + "/manage_user_page.php"
+                && IsElementPresent(By.XPath("//input[@name='manage_user_create_page_token']")))
+            {
+                return;
+            }
+            driver.Navigate().GoToUrl(_baseURL + "/manage_user_page.php");
+        }
     }
 }

@@ -26,3 +26,6 @@ C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\S
 C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\BouncyCastle.Crypto.dll
 C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\OpaqueMail.dll
 C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\BouncyCastle.Crypto.pdb
+C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\RazorHosting.dll
+C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\SimpleBrowser.dll
+C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\SimpleBrowser.WebDriver.dll

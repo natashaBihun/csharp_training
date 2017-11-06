@@ -22,6 +22,7 @@ namespace mantis_tests
                     OpaqueMail.MailMessage message = pop3Client.GetMessage(1);
                     string body = message.Body;
                     pop3Client.DeleteMessage(1);
+                    pop3Client.LogOut();
                     return body;
                 }
                 else {
