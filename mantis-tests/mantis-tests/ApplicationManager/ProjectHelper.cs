@@ -30,7 +30,8 @@ namespace mantis_tests
             manager.ManagementMenu.GoToProjectManagementPage();
 
             SelectProject(index);
-            RemoveProjectCreation();
+            RemoveProject();
+            AcceptProjectRemoving();
             ReturnToProjectPage();
 
             return this;
@@ -40,52 +41,62 @@ namespace mantis_tests
             manager.ManagementMenu.GoToProjectManagementPage();
 
             SelectProject(project);
-            RemoveProjectCreation();
+            RemoveProject();
+            AcceptProjectRemoving();
             ReturnToProjectPage();
 
             return this;
         }
 
-        private ProjectHelper InitProjectCreation()
+        public ProjectHelper InitProjectCreation()
         {
             driver.FindElement(By.XPath("//form[@action='manage_proj_create_page.php']"))
                 .FindElement(By.CssSelector("button")).Click();
             return this;
         }
-        private ProjectHelper FillProjectForm(ProjectData project)
+        public ProjectHelper FillProjectForm(ProjectData project)
         {
             Type(By.Id("project-name"), project.Name);
             Type(By.Id("project-description"), project.Description);
 
             return this;
         }
-        private ProjectHelper SubmitProjectCreation()
+        public ProjectHelper SubmitProjectCreation()
         {
             driver.FindElement(By.XPath("//input[@type='submit']")).Click();
             return this;
         }
-        private ProjectHelper ReturnToProjectPage()
+        public ProjectHelper ReturnToProjectPage()
         {
             manager.ManagementMenu.GoToProjectManagementPage();
             return this;
         }
-        private ProjectHelper SelectProject(int index)
+        public ProjectHelper SelectProject(int index)
         {
             driver.FindElement(
-                By.XPath("//div[@class='widget-main no-padding'][descendant::form[@action='manage_proj_create_page.php']]//table/tbody/tr[" + index + "]"))
+                By.XPath("//div[@class='widget-main no-padding'][descendant::form[@action='manage_proj_create_page.php']]//table/tbody/tr[" + index + "]/td[1]/a"))
                 .Click();
             return this;
         }
-        private ProjectHelper SelectProject(ProjectData project)
+        public ProjectHelper SelectProject(ProjectData project)
         {
-            driver.FindElement(
-                By.XPath("//div[@class='widget-main no-padding'][descendant::form[@action='manage_proj_create_page.php']]//table/tbody/tr/td[1][.='" + project.Name + "']"))
+            driver.FindElements(
+                By.XPath("//div[@class='widget-main no-padding'][descendant::form[@action='manage_proj_create_page.php']]//table/tbody/tr/td[1]/a"))
+                .Where(t => t.Text == project.Name)
+                .FirstOrDefault()
                 .Click();
             return this;
         }
-        private ProjectHelper RemoveProjectCreation()
+        public ProjectHelper RemoveProject()
         {
-            driver.FindElement(By.Id("project-delete-form")).FindElement(By.XPath("//input[@type='submit']")).Click();
+            driver
+                .FindElement(By.XPath("//input[@class='btn btn-primary btn-sm btn-white btn-round']")).Click();
+            return this;
+        }
+        public ProjectHelper AcceptProjectRemoving()
+        {
+            driver
+                .FindElement(By.XPath("//input[@class='btn btn-primary btn-white btn-round']")).Click();
             return this;
         }
         public int GetProjectCount()

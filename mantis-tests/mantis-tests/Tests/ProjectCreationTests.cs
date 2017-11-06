@@ -22,6 +22,7 @@ namespace mantis_tests
             };
             if (appManager.Project.IsProjectPresent(project)) {
                 appManager.Project.Remove(project);
+                projectCount--;
             }
             appManager.Project.Create(project);
 
