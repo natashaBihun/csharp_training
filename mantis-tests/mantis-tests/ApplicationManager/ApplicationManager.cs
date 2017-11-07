@@ -33,6 +33,7 @@ namespace mantis_tests
         public LoginHelper Login { get; private set; }
         public ManagementMenuHelper ManagementMenu { get; private set; }
         public AdminHelper Admin { get; private set; }
+        public APIHelper API { get; private set; }
 
         private ApplicationManager() {
             FirefoxOptions options = new FirefoxOptions();
@@ -48,6 +49,7 @@ namespace mantis_tests
             Login = new LoginHelper(this);
             ManagementMenu = new ManagementMenuHelper(this, baseURL);
             Admin = new AdminHelper(this, baseURL);
+            API = new APIHelper(this);
         }
 
         ~ApplicationManager() {
