@@ -12,8 +12,13 @@ namespace mantis_tests
     {
         [Test]
         public void ProjectCreationTest() {
-            appManager.Login.LoginAsAdministrator();
-            int projectCount = appManager.Project.GetProjectCount();
+            AccountData account = new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            };
+            List<ProjectData> projects = appManager.Project.GetProjectList(account);
+            int projectCount = projects.Count;
 
             ProjectData project = new ProjectData()
             {
@@ -24,9 +29,9 @@ namespace mantis_tests
                 appManager.Project.Remove(project);
                 projectCount--;
             }
-            appManager.Project.Create(project);
+            appManager.Project.Create(account, project);
 
-            Assert.AreEqual(projectCount + 1, appManager.Project.GetProjectCount());
+            Assert.AreEqual(projectCount + 1, appManager.Project.GetProjectList(account).Count);
         }
     }
 }

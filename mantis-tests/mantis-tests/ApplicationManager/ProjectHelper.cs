@@ -25,6 +25,26 @@ namespace mantis_tests
 
             return this;
         }
+        public ProjectHelper Create(AccountData account, ProjectData project)
+        {
+            if (IsProjectPresent(project)) { Remove(account, project); }
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData projectData = new Mantis.ProjectData();
+            projectData.name = project.Name;
+            projectData.description = project.Description;
+            client.mc_project_add(account.Name, account.Password, projectData);
+
+            return this;
+        }
+        public ProjectHelper Remove(AccountData account, ProjectData project)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData projectData = new Mantis.ProjectData();
+            string index = GetProjectIndex(account, project.Name);
+            projectData.id = index;
+            client.mc_project_delete(account.Name, account.Password, index);
+            return this;
+        }
         public ProjectHelper Remove(int index)
         {
             manager.ManagementMenu.GoToProjectManagementPage();
@@ -106,19 +126,38 @@ namespace mantis_tests
                 By.XPath("//div[@class='widget-main no-padding'][descendant::form[@action='manage_proj_create_page.php']]//table/tbody/tr"))
                 .Count;
         }
-        public List<ProjectData> GetProjectList() {
+        public List<ProjectData> GetProjectList()
+        {
+            manager.Login.LoginAsAdministrator();
             List<ProjectData> projectList = new List<ProjectData>();
             manager.ManagementMenu.GoToProjectManagementPage();
             ICollection<IWebElement> elements = driver.FindElements(
                 By.XPath("//div[@class='widget-main no-padding'][descendant::form[@action='manage_proj_create_page.php']]//table/tbody/tr/td[1]")
                 );
-            foreach (IWebElement element in elements) {
+            foreach (IWebElement element in elements)
+            {
                 projectList.Add(new ProjectData()
                 {
                     Name = element.Text
                 });
             }
             return projectList;
+        }
+        public List<ProjectData> GetProjectList(AccountData account)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData[] mantisProjects = client.mc_projects_get_user_accessible(account.Name, account.Password);
+            List<ProjectData> projects = new List<ProjectData>();
+            foreach (Mantis.ProjectData project in mantisProjects)
+            {
+                projects.Add(new ProjectData()
+                {
+                    Name = project.name,
+                    Description = project.description,
+                    Id = project.id
+                });
+            }
+            return projects;
         }
         public bool IsProjectPresent(ProjectData project)
         {
@@ -128,6 +167,10 @@ namespace mantis_tests
                 if (item.Name == project.Name) return true;
             }
             return false;
+        }
+        public string GetProjectIndex(AccountData account, string projectName) {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            return client.mc_project_get_id_from_name(account.Name, account.Password, projectName);
         }
     }
 }

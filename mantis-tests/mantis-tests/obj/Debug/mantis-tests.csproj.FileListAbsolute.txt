@@ -58,3 +58,4 @@ C:\Users\1\Source\Repos\csharp_training\mantis-tests\mantis-tests\obj\Debug\mant
 C:\Users\1\Source\Repos\csharp_training\mantis-tests\mantis-tests\obj\Debug\mantis-tests.dll
 C:\Users\1\Source\Repos\csharp_training\mantis-tests\mantis-tests\obj\Debug\mantis-tests.pdb
 C:\Users\1\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\mantis-tests.dll.config
+C:\Users\user\Source\Repos\csharp_training\mantis-tests\mantis-tests\bin\Debug\mantis-tests.dll.config
