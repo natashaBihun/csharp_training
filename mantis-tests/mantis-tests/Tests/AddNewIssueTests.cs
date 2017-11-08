@@ -17,9 +17,16 @@ namespace mantis_tests
                 Name = "administrator",
                 Password = "root"
             };
-            ProjectData project = new ProjectData() {
-                Name = "1"
-            };
+            List<ProjectData> projects = appManager.Project.GetProjectList();
+            if (projects.Count == 0) {
+                appManager.Login.LoginAsAdministrator();
+                appManager.Project.Create(new ProjectData() {
+                    Name = "Project for new issue"
+                });                
+            }
+            appManager.Login.Logout();
+            ProjectData project = projects[0];
+
             IssueData issue = new IssueData()
             {
                 Category = "General",

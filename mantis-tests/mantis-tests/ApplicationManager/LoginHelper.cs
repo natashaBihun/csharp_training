@@ -42,8 +42,8 @@ namespace mantis_tests
         {
             if (IsLoggedIn())
             {
-                driver.FindElement(By.XPath("//li[@class='grey open']//ul"))
-                    .FindElement(By.XPath("//a[i[@class='ace-icon fa fa-sign-out']]")).Click();
+                driver.FindElement(By.XPath("//a[@class='dropdown-toggle'][span[@class='user-info']]")).Click();
+                driver.FindElement(By.XPath("//li[@class='divider']/following-sibling::li[1]/a")).Click();
             }
         }
         public bool IsLoggedIn()

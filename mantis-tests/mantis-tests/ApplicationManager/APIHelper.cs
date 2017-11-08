@@ -19,7 +19,7 @@ namespace mantis_tests
             issue.summary = issueData.Summary;
             issue.description = issueData.Description;
             issue.project = new Mantis.ObjectRef();
-            issue.project.id = project.Id;
+            //issue.project.id = project.Id;
             issue.project.name = project.Name;
 
             client.mc_issue_add(account.Name, account.Password, issue);
