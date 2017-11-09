@@ -12,13 +12,14 @@ namespace mantis_tests
     {
         [Test]
         public void ProjectRemovalTest() {
+            appManager.Login.LoginAsAdministrator();
             AccountData account = new AccountData()
             {
                 Name = "administrator",
                 Password = "root"
             };
-            List<ProjectData> projects = appManager.Project.GetProjectList(account);
-            int projectCount = projects.Count;
+            List<ProjectData> oldProjectList = appManager.Project.GetProjectList(account);
+            int projectCount = oldProjectList.Count;
 
             if (projectCount == 0)
             {
@@ -30,9 +31,15 @@ namespace mantis_tests
                     });
                 projectCount++;
             }
-            appManager.Project.Remove(account, projects[0]);
+            appManager.Project.Remove(1);
 
-            Assert.AreEqual(projectCount - 1, appManager.Project.GetProjectList(account).Count);
+            List<ProjectData> newProjectList = appManager.Project.GetProjectList(account);
+            Assert.AreEqual(projectCount - 1, newProjectList.Count);
+
+            if (oldProjectList.Count != 0) oldProjectList.RemoveAt(0);        
+            oldProjectList.Sort();
+            newProjectList.Sort();
+            Assert.AreEqual(oldProjectList, newProjectList);
         }
     }
 }

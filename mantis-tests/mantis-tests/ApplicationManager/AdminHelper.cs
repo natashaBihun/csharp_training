@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using SimpleBrowser.WebDriver;
 using System.Text.RegularExpressions;
 
+
 namespace mantis_tests
 {
     public class AdminHelper : HelperBase
@@ -53,7 +54,7 @@ namespace mantis_tests
         {
             IWebDriver driver = new SimpleBrowserDriver();
             driver.Url = _baseURL + "/login_page.php";
-
+            
             Type(By.Name("username"), "administrator");
             driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
 

@@ -20,7 +20,7 @@ namespace mantis_tests
 
         [Test]
         public void AccountRegistrationTest()
-        {          
+        {
             AccountData account = new AccountData() {
                 Name = "testuser",
                 Password = "password",

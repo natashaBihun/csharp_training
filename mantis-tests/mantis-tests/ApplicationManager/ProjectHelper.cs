@@ -27,13 +27,15 @@ namespace mantis_tests
         }
         public ProjectHelper Create(AccountData account, ProjectData project)
         {
-            if (IsProjectPresent(project)) { Remove(account, project); }
+            if (IsProjectPresent(project)) {
+                Remove(project);
+            }
             Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
             Mantis.ProjectData projectData = new Mantis.ProjectData();
             projectData.name = project.Name;
             projectData.description = project.Description;
             client.mc_project_add(account.Name, account.Password, projectData);
-
+            driver.Navigate().Refresh();
             return this;
         }
         public ProjectHelper Remove(AccountData account, ProjectData project)
